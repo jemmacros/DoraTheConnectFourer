@@ -1,9 +1,9 @@
-package com.thg.accelerator23.connectn.ai.jemma;
+package com.thg.accelerator.connectn.ai.jemma;
 
 import com.thehutgroup.accelerator.connectn.player.Board;
 import com.thehutgroup.accelerator.connectn.player.Counter;
 import com.thehutgroup.accelerator.connectn.player.Player;
-import com.thg.accelerator23.connectn.ai.jemma.Moves.BasicMoves;
+import com.thg.accelerator.connectn.ai.jemma.Moves.BasicMoves;
 
 import java.util.Random;
 
@@ -17,13 +17,13 @@ public class DoraTheConnectFourer extends Player {
   public int makeMove(Board board) {
     Counter dorasCounter = getCounter();
     BasicMoves basicMoves = new BasicMoves(board, dorasCounter);
+    Counter[][] counterPositions = board.getCounterPlacements();
 
-    if(basicMoves.checkCenterFree()){
+
+    if(basicMoves.checkCenterFree()) {
       return 4;
     }else{
-      Random rand = new Random();
-      int int_random = rand.nextInt(10);
-      return int_random;
+      return basicMoves.randomMove(counterPositions);
     }
   }
 }
