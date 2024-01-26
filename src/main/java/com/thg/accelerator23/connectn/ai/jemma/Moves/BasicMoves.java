@@ -27,7 +27,7 @@ public class BasicMoves {
 
         for (int i = 0; i <= 9; i++) {
             Counter counter = counterPositions[i][7];
-            if(counter.getStringRepresentation() != "X" && counter.getStringRepresentation() != "0"){
+            if(counter == null){
                 availableColumns.add(i);
             }
         }
