@@ -22,16 +22,14 @@ public class DoraTheConnectFourer extends Player {
 
     List<Integer> availableColumns = moves.availableColumns(counterPlacements);
 
-    int winningMove = moves.getWinningMove();    //winning move
-    if(moves.checkCenterFree()){
+    int winningMove = moves.getWinningMove();//winning move
+    int blockingMove = moves.getBlockingMove();//blocking move
+    if(moves.checkCenterFree()){  //go for center if free
       return 4;
     } else if (winningMove != -1 && availableColumns.contains(winningMove)) {
       return winningMove;
-    } else{
-      int blockingMove = moves.getBlockingMove();   //blocking move
-      if (blockingMove != -1 && availableColumns.contains(winningMove)) {
+    } else if (blockingMove != -1 && availableColumns.contains(blockingMove)) {
         return blockingMove;
-      }
     }
 
     int randomColumn = moves.randomMove(counterPlacements);
