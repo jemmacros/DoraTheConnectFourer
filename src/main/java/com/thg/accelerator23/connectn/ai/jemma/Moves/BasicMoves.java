@@ -49,9 +49,9 @@ public class BasicMoves {
     }
 
     public int checkDiagonal(Counter counter){
-        for (int col = 0; col < 7; col++) {
-            for (int row = 0; row < 5; row++) {
-                if (counterPositions[row][col] != null &&
+        for (int col = 0; col < 10; col++) {
+            for (int row = 0; row < 8; row++) {
+                if (col < 7 && row < 5 && counterPositions[row][col] != null &&
                         counterPositions[row][col].equals(counter) &&
                         counterPositions[row + 1][col + 1] != null &&
                         counterPositions[row + 1][col + 1].equals(counter) &&
@@ -63,13 +63,29 @@ public class BasicMoves {
                 }
             }
         }
+
+        // Check top-right to bottom-left diagonal
+        for (int col = 3; col < 10; col++) {
+            for (int row = 0; row < 8; row++) {
+                if (col > 2 && row < 5 && counterPositions[row][col] != null &&
+                        counterPositions[row][col].equals(counter) &&
+                        counterPositions[row + 1][col - 1] != null &&
+                        counterPositions[row + 1][col - 1].equals(counter) &&
+                        counterPositions[row + 2][col - 2] != null &&
+                        counterPositions[row + 2][col - 2].equals(counter) &&
+                        counterPositions[row + 3][col - 3] == null &&
+                        counterPositions[row + 3][col - 2] != null) {
+                    return col - 2;
+                }
+            }
+        }
         return -1;
     }
 
     public int checkHorizontal(Counter counter){
-        for (int col = 0; col < 7; col++) {
+        for (int col = 0; col < 10; col++) {
             for (int row = 0; row < 8; row++) {
-                if (counterPositions[row][col] != null &&
+                if (col < 4 && counterPositions[row][col] != null &&
                         counterPositions[row][col].equals(counter) &&
                         counterPositions[row][col + 1] != null &&
                         counterPositions[row][col + 1].equals(counter) &&
@@ -85,8 +101,8 @@ public class BasicMoves {
 
     public int checkVertical(Counter counter){
         for (int col = 0; col < 10; col++) {
-            for (int row = 0; row < 5; row++) {
-                if (counterPositions[row][col] != null &&
+            for (int row = 0; row < 8; row++) {
+                if (row < 5 && counterPositions[row][col] != null &&
                     counterPositions[row][col].equals(counter) &&
                     counterPositions[row + 1][col] != null &&
                     counterPositions[row + 1][col].equals(counter) &&
