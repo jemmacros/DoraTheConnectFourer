@@ -101,7 +101,7 @@ public class BasicMoves {
 
     public int checkVertical(Counter counter){
         for (int col = 0; col < 10; col++) {
-            for (int row = 0; row < 6; row++) {
+            for (int row = 0; row < 5; row++) {
                 if (counterPositions[row][col] != null &&
                     counterPositions[row][col].equals(counter) &&
                     counterPositions[row + 1][col] != null &&
@@ -133,10 +133,12 @@ public class BasicMoves {
     }
 
     public int makeMove(){
-        if(movePosition(dorasCounter) != -1){
-            return movePosition(dorasCounter); //win move
-        }else if(movePosition(opponentCounter) != -1){
-            return movePosition(opponentCounter); //block move
+        int winMove = movePosition(dorasCounter);
+        int blockMove = movePosition(opponentCounter);
+        if(winMove != -1){
+            return winMove;
+        }else if(blockMove != -1){
+            return blockMove;
         }
         return -1;
     }
