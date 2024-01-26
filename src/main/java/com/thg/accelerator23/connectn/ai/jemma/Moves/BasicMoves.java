@@ -85,7 +85,7 @@ public class BasicMoves {
     public int checkHorizontal(Counter counter){
         for (int col = 0; col < 10; col++) {
             for (int row = 0; row < 8; row++) {
-                if (col < 4 && counterPositions[row][col] != null &&
+                if (col < 7 && counterPositions[row][col] != null &&
                         counterPositions[row][col].equals(counter) &&
                         counterPositions[row][col + 1] != null &&
                         counterPositions[row][col + 1].equals(counter) &&
@@ -102,7 +102,7 @@ public class BasicMoves {
     public int checkVertical(Counter counter){
         for (int col = 0; col < 10; col++) {
             for (int row = 0; row < 8; row++) {
-                if (row < 5 && counterPositions[row][col] != null &&
+                if (row < 4 && counterPositions[row][col] != null &&
                     counterPositions[row][col].equals(counter) &&
                     counterPositions[row + 1][col] != null &&
                     counterPositions[row + 1][col].equals(counter) &&
