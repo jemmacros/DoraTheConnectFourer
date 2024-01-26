@@ -22,8 +22,6 @@ public class DoraTheConnectFourer extends Player {
 
     if(moves.checkCenterFree()){  //go for center if free
       return 4;
-    } else if(moves.makeMove() != -1) {
-      return moves.makeMove();
     }
 
     return moves.randomMove();
