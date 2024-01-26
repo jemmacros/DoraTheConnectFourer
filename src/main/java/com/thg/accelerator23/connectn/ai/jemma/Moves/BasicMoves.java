@@ -133,6 +133,7 @@ public class BasicMoves {
     }
 
     public int makeMove(){
+        System.out.println("im working");
         int winMove = movePosition(dorasCounter);
         int blockMove = movePosition(opponentCounter);
         if(winMove != -1){
