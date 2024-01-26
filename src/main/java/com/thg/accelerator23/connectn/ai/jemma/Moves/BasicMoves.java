@@ -15,7 +15,6 @@ public class BasicMoves {
     Counter[][] counterPositions;
 
 
-
     public BasicMoves(Board board, Counter dorasCounter, Counter[][] counterPositions) {
         this.board = board;
         this.dorasCounter = dorasCounter;
@@ -52,11 +51,14 @@ public class BasicMoves {
     public int checkDiagonal(Counter counter){
         for (int col = 0; col < 10; col++) {
             for (int row = 0; row < 8; row++) {
-                if (counterPositions[row][col].equals(counter) &&
+                if (counterPositions[row][col] != null &&
+                        counterPositions[row][col].equals(counter) &&
+                        counterPositions[row + 1][col + 1] != null &&
                         counterPositions[row + 1][col + 1].equals(counter) &&
+                        counterPositions[row + 2][col + 2] != null &&
                         counterPositions[row + 2][col + 2].equals(counter) &&
-                        counterPositions[row + 3][col + 3].equals(null) &&
-                        !counterPositions[row + 3][col + 2].equals(null)) {
+                        counterPositions[row + 3][col + 3] == null &&
+                        counterPositions[row + 3][col + 2] != null) {
                     return col + 3;
                 }
             }
@@ -67,10 +69,13 @@ public class BasicMoves {
     public int checkHorizontal(Counter counter){
         for (int col = 0; col < 10; col++) {
             for (int row = 0; row < 8; row++) {
-                if (counterPositions[row][col].equals(counter) &&
+                if (counterPositions[row][col] != null &&
+                        counterPositions[row][col].equals(counter) &&
+                        counterPositions[row][col + 1] != null &&
                         counterPositions[row][col + 1].equals(counter) &&
+                        counterPositions[row][col + 2] != null &&
                         counterPositions[row][col + 2].equals(counter) &&
-                        counterPositions[row][col + 3].equals(null)){
+                        counterPositions[row][col + 3] == null){
                     return col + 3;
                 }
             }
@@ -81,10 +86,13 @@ public class BasicMoves {
     public int checkVertical(Counter counter){
         for (int col = 0; col < 10; col++) {
             for (int row = 0; row < 8; row++) {
-                if (counterPositions[row][col].equals(counter) &&
-                        counterPositions[row + 1][col].equals(counter) &&
-                        counterPositions[row + 2][col].equals(counter) &&
-                        counterPositions[row + 3][col].equals(null)){
+                if (counterPositions[row][col] != null &&
+                    counterPositions[row][col].equals(counter) &&
+                    counterPositions[row + 1][col] != null &&
+                    counterPositions[row + 1][col].equals(counter) &&
+                    counterPositions[row + 2][col] != null &&
+                    counterPositions[row + 2][col].equals(counter) &&
+                    counterPositions[row + 3][col] == null){
                     return col;
                 }
             }
