@@ -51,19 +51,19 @@ public class BasicMoves {
         // Check horizontally, vertically, and diagonally
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width - 3; col++) {
-                if (checkSequence(board, row, col, 1, 0, counter)) {
-                    return col + 3; // Attack
-                } else if (checkSequence(board, row, col, 1, 0, opponentCounter)) {
-                    return col + 3; // Defend
+                if (checkSequence(board, row, col, 1, 0, counter, false)) {
+                    return col + 3; // Win
+                } else if (checkSequence(board, row, col, 1, 0, opponentCounter, true)) {
+                    return col + 3; // Block
                 }
             }
         }
 
         for (int row = 0; row < height - 3; row++) {
             for (int col = 0; col < width; col++) {
-                if (checkSequence(board, row, col, 0, 1, counter)) {
+                if (checkSequence(board, row, col, 0, 1, counter, false)) {
                     return col + 3; // Win
-                } else if (checkSequence(board, row, col, 0, 1, opponentCounter)) {
+                } else if (checkSequence(board, row, col, 0, 1, opponentCounter, true)) {
                     return col + 3; // Block
                 }
             }
@@ -71,14 +71,14 @@ public class BasicMoves {
 
         for (int row = 0; row < height - 3; row++) {
             for (int col = 0; col < width - 3; col++) {
-                if (checkSequence(board, row, col, 1, 1, counter)) {
+                if (checkSequence(board, row, col, 1, 1, counter, false)) {
                     return col + 3; // Win
-                } else if (checkSequence(board, row, col, 1, 1, opponentCounter)) {
+                } else if (checkSequence(board, row, col, 1, 1, opponentCounter, true)) {
                     return col + 3; // Block
                 }
-                if (checkSequence(board, row, col + 3, 1, -1, counter)) {
+                if (checkSequence(board, row, col + 3, 1, -1, counter, false)) {
                     return col + 3; // Win
-                } else if (checkSequence(board, row, col + 3, 1, -1, opponentCounter)) {
+                } else if (checkSequence(board, row, col + 3, 1, -1, opponentCounter, true)) {
                     return col + 3; // Block
                 }
             }
@@ -87,12 +87,15 @@ public class BasicMoves {
         return -1;
     }
 
-    private boolean checkSequence(Board board, int startRow, int startCol, int rowChange, int colChange, Counter targetCounter) {
+    private boolean checkSequence(Board board, int startRow, int startCol, int rowChange, int colChange, Counter targetCounter, boolean isBlocking) {
         for (int i = 0; i < 4; i++) {
             int newRow = startRow + i * rowChange;
             int newCol = startCol + i * colChange;
 
             if (board.getCounterAtPosition(new Position(newCol, newRow)) != targetCounter) {
+                if (isBlocking && newRow - rowChange >= 0 && board.getCounterAtPosition(new Position(newCol, newRow - rowChange))==null) {
+                    return true; // Block
+                }
                 return false;
             }
         }
