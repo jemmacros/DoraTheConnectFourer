@@ -101,8 +101,8 @@ public class BasicMoves {
 
     public int checkVertical(Counter counter){
         for (int col = 0; col < 10; col++) {
-            for (int row = 0; row < 8; row++) {
-                if (row < 4 && counterPositions[row][col] != null &&
+            for (int row = 0; row < 6; row++) {
+                if (counterPositions[row][col] != null &&
                     counterPositions[row][col].equals(counter) &&
                     counterPositions[row + 1][col] != null &&
                     counterPositions[row + 1][col].equals(counter) &&
