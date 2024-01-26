@@ -4,10 +4,8 @@ import com.thehutgroup.accelerator.connectn.player.Board;
 import com.thehutgroup.accelerator.connectn.player.Counter;
 import com.thehutgroup.accelerator.connectn.player.Position;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Method;
 import java.util.Random;
 
 public class BasicMoves {
@@ -21,8 +19,7 @@ public class BasicMoves {
 
     public boolean checkCenterFree(){
         Position centerPosition = new Position(4, 0);
-        boolean centerCounterTaken = board.hasCounterAtPosition(centerPosition);
-        return centerCounterTaken;
+        return board.hasCounterAtPosition(centerPosition);
     }
 
     public List<Integer> availableColumns(Counter[][] counterPositions){
@@ -43,7 +40,59 @@ public class BasicMoves {
         Random rand = new Random();
 
         int randomIndex = rand.nextInt(availableColumns.size());
-        int randomColumn = availableColumns.get(randomIndex);
-        return randomColumn;
+        return availableColumns.get(randomIndex);
     }
+
+    public int getWinningMove() {
+        return getPotentialMove(counter);
+    }
+
+    public int getBlockingMove() {
+        Counter opponentCounter = counter.getOther();
+        return getPotentialMove(opponentCounter);
+    }
+
+    public int getPotentialMove(Counter targetCounter) {
+        int width = board.getConfig().getWidth();
+        int height = board.getConfig().getHeight();
+
+        // Check horizontally and vertically for a potential move
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width - 3; col++) {
+                if (checkRow(board, row, col, targetCounter)) {
+                    return col + 3;
+                }
+            }
+        }
+
+        // Check diagonally (both directions) for a potential move
+        for (int row = 0; row < height - 3; row++) {
+            for (int col = 0; col < width - 3; col++) {
+                if (checkDiagonal(board, row, col, targetCounter)) {
+                    return col + 3;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    public boolean checkRow(Board board, int row, int startCol, Counter targetCounter) {
+        for (int i = 0; i < 4; i++) {
+            if (board.getCounterAtPosition(new Position(startCol + i, row)) != targetCounter) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkDiagonal(Board board, int startRow, int startCol, Counter targetCounter) {
+        for (int i = 0; i < 4; i++) {
+            if (board.getCounterAtPosition(new Position(startCol + i, startRow + i)) != targetCounter) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
