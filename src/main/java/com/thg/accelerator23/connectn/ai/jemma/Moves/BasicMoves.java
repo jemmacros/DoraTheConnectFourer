@@ -17,24 +17,24 @@ public class BasicMoves {
         this.counter = counter;
     }
 
-    public boolean checkCenterFree(){
+    public boolean checkCenterFree() {
         Position centerPosition = new Position(4, 0);
         return !board.hasCounterAtPosition(centerPosition);
     }
 
-    public List<Integer> availableColumns(Counter[][] counterPositions){
+    public List<Integer> availableColumns(Counter[][] counterPositions) {
         List<Integer> availableColumns = new ArrayList<>();
 
         for (int i = 0; i <= 9; i++) {
             Counter counter = counterPositions[i][7];
-            if(counter == null){
+            if (counter == null) {
                 availableColumns.add(i);
             }
         }
         return availableColumns;
     }
 
-    public int randomMove(Counter[][] counterPositions){
+    public int randomMove(Counter[][] counterPositions) {
         List<Integer> availableColumns = availableColumns(counterPositions);
 
         Random rand = new Random();
@@ -43,42 +43,43 @@ public class BasicMoves {
         return availableColumns.get(randomIndex);
     }
 
-    public int getWinningMove() {
-        return getPotentialMove(counter);
-    }
-
-    public int getBlockingMove() {
+    public int getMove() {
         Counter opponentCounter = counter.getOther();
-        return getPotentialMove(opponentCounter);
-    }
-
-    public int getPotentialMove(Counter targetCounter) {
         int width = board.getConfig().getWidth();
         int height = board.getConfig().getHeight();
 
-        // Check horizontally
+        // Check horizontally, vertically, and diagonally
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width - 3; col++) {
-                if (checkRow(board, row, col, targetCounter)) {
-                    return col + 3;
+                if (checkSequence(board, row, col, 1, 0, counter)) {
+                    return col + 3; // Attack
+                } else if (checkSequence(board, row, col, 1, 0, opponentCounter)) {
+                    return col + 3; // Defend
                 }
             }
         }
 
-        // Check vertically
         for (int row = 0; row < height - 3; row++) {
             for (int col = 0; col < width; col++) {
-                if (checkColumn(board, col, row, targetCounter)) {
-                    return col + 3;
+                if (checkSequence(board, row, col, 0, 1, counter)) {
+                    return col + 3; // Win
+                } else if (checkSequence(board, row, col, 0, 1, opponentCounter)) {
+                    return col + 3; // Block
                 }
             }
         }
 
-        // Check diagonally (both directions)
         for (int row = 0; row < height - 3; row++) {
             for (int col = 0; col < width - 3; col++) {
-                if (checkDiagonal(board, row, col, targetCounter)) {
-                    return col + 3;
+                if (checkSequence(board, row, col, 1, 1, counter)) {
+                    return col + 3; // Win
+                } else if (checkSequence(board, row, col, 1, 1, opponentCounter)) {
+                    return col + 3; // Block
+                }
+                if (checkSequence(board, row, col + 3, 1, -1, counter)) {
+                    return col + 3; // Win
+                } else if (checkSequence(board, row, col + 3, 1, -1, opponentCounter)) {
+                    return col + 3; // Block
                 }
             }
         }
@@ -86,31 +87,15 @@ public class BasicMoves {
         return -1;
     }
 
-    public boolean checkRow(Board board, int row, int startCol, Counter targetCounter) {
+    private boolean checkSequence(Board board, int startRow, int startCol, int rowChange, int colChange, Counter targetCounter) {
         for (int i = 0; i < 4; i++) {
-            if (board.getCounterAtPosition(new Position(startCol + i, row)) != targetCounter) {
+            int newRow = startRow + i * rowChange;
+            int newCol = startCol + i * colChange;
+
+            if (board.getCounterAtPosition(new Position(newCol, newRow)) != targetCounter) {
                 return false;
             }
         }
         return true;
     }
-
-    public boolean checkDiagonal(Board board, int startRow, int startCol, Counter targetCounter) {
-        for (int i = 0; i < 4; i++) {
-            if (board.getCounterAtPosition(new Position(startCol + i, startRow + i)) != targetCounter) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean checkColumn(Board board, int col, int startRow, Counter targetCounter) {
-        for (int i = 0; i < 4; i++) {
-            if (board.getCounterAtPosition(new Position(col, startRow + i)) != targetCounter) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }
