@@ -1,9 +1,9 @@
-package com.thg.accelerator.connectn.ai.jemma;
+package com.thg.accelerator23.connectn.ai.jemma;
 
 import com.thehutgroup.accelerator.connectn.player.Board;
 import com.thehutgroup.accelerator.connectn.player.Counter;
 import com.thehutgroup.accelerator.connectn.player.Player;
-import com.thg.accelerator.connectn.ai.jemma.Moves.BasicMoves;
+import com.thg.accelerator23.connectn.ai.jemma.Moves.BasicMoves;
 
 import java.util.List;
 import java.util.Random;
@@ -17,7 +17,7 @@ public class DoraTheConnectFourer extends Player {
   @Override
   public int makeMove(Board board) {
     Counter dorasCounter = getCounter();
-    BasicMoves moves = new BasicMoves(board, dorasCounter);
+    com.thg.accelerator23.connectn.ai.jemma.Moves.BasicMoves moves = new BasicMoves(board, dorasCounter);
     Counter[][] counterPlacements = board.getCounterPlacements();
 
     List<Integer> availableColumns = moves.availableColumns(counterPlacements);

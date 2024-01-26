@@ -1,4 +1,4 @@
-package com.thg.accelerator.connectn.ai.jemma.Moves;
+package com.thg.accelerator23.connectn.ai.jemma.Moves;
 
 import com.thehutgroup.accelerator.connectn.player.Board;
 import com.thehutgroup.accelerator.connectn.player.Counter;
