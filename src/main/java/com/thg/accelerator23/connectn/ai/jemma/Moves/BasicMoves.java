@@ -19,7 +19,7 @@ public class BasicMoves {
 
     public boolean checkCenterFree(){
         Position centerPosition = new Position(4, 0);
-        return board.hasCounterAtPosition(centerPosition);
+        return !board.hasCounterAtPosition(centerPosition);
     }
 
     public List<Integer> availableColumns(Counter[][] counterPositions){
