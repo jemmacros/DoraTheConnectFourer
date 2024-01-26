@@ -57,7 +57,7 @@ public class BasicMoves {
                         counterPositions[row + 1][col + 1].equals(counter) &&
                         counterPositions[row + 2][col + 2] != null &&
                         counterPositions[row + 2][col + 2].equals(counter) &&
-                        (row + 3 == 8 || counterPositions[row + 3][col + 3] == null)) {
+                        (row + 3 == 7 || counterPositions[row + 3][col + 3] == null)) {
                     return col + 3;
                 }
             }
@@ -72,7 +72,7 @@ public class BasicMoves {
                         counterPositions[row + 1][col - 1].equals(counter) &&
                         counterPositions[row + 2][col - 2] != null &&
                         counterPositions[row + 2][col - 2].equals(counter) &&
-                        (row + 3 == 8 || counterPositions[row + 3][col - 3] == null)) {
+                        (row + 3 == 7 || counterPositions[row + 3][col - 3] == null)) {
                     return col - 2;
                 }
             }
@@ -89,7 +89,7 @@ public class BasicMoves {
                         counterPositions[row][col + 1].equals(counter) &&
                         counterPositions[row][col + 2] != null &&
                         counterPositions[row][col + 2].equals(counter) &&
-                        (col + 3 == 10 || counterPositions[row][col + 3] == null)) {
+                        (col + 3 == 9 || counterPositions[row][col + 3] == null)) {
                     return col + 3;
                 }
             }
@@ -106,7 +106,7 @@ public class BasicMoves {
                         counterPositions[row + 1][col].equals(counter) &&
                         counterPositions[row + 2][col] != null &&
                         counterPositions[row + 2][col].equals(counter) &&
-                        (row + 3 == 8 || counterPositions[row + 3][col] == null)) {
+                        (row + 3 == 7 || counterPositions[row + 3][col] == null)) {
                     return col;
                 }
             }
