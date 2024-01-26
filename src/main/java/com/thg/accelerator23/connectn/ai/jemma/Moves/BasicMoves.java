@@ -99,31 +99,32 @@ public class BasicMoves {
         return -1;
     }
 
-    public int checkVertical(Counter counter){
-        for (int col = 0; col < 10; col++) {
-            for (int row = 0; row < 5; row++) {
-                if (counterPositions[row][col] != null &&
-                    counterPositions[row][col].equals(counter) &&
-                    counterPositions[row + 1][col] != null &&
-                    counterPositions[row + 1][col].equals(counter) &&
-                    counterPositions[row + 2][col] != null &&
-                    counterPositions[row + 2][col].equals(counter) &&
-                    counterPositions[row + 3][col] == null){
-                    return col;
-                }
-            }
-        }
-        return -1;
-    }
+//    public int checkVertical(Counter counter){
+//        for (int col = 0; col < 10; col++) {
+//            for (int row = 0; row < 5; row++) {
+//                if (counterPositions[row][col] != null &&
+//                    counterPositions[row][col].equals(counter) &&
+//                    counterPositions[row + 1][col] != null &&
+//                    counterPositions[row + 1][col].equals(counter) &&
+//                    counterPositions[row + 2][col] != null &&
+//                    counterPositions[row + 2][col].equals(counter) &&
+//                    counterPositions[row + 3][col] == null){
+//                    return col;
+//                }
+//            }
+//        }
+//        return -1;
+//    }
 
     public int movePosition(Counter counter){
-        int vertical = checkVertical(counter);
+//        int vertical = checkVertical(counter);
         int horizontal = checkHorizontal(counter);
         int diagonal = checkDiagonal(counter);
 
-        if(vertical != -1 && vertical < 10){
-            return vertical;
-        }else if(horizontal != -1 && horizontal < 10){
+//        if(vertical != -1 && vertical < 10){
+//            return vertical;
+//        }else
+        if(horizontal != -1 && horizontal < 10){
             return horizontal;
         }else if(diagonal != -1 && diagonal <10){
             return diagonal;
