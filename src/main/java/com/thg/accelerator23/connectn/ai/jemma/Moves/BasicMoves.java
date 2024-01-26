@@ -9,12 +9,18 @@ import java.util.List;
 import java.util.Random;
 
 public class BasicMoves {
-    private Board board;
-    private Counter counter;
+    Board board;
+    Counter dorasCounter;
+    Counter opponentCounter;
+    Counter[][] counterPositions;
 
-    public BasicMoves(Board board, Counter counter) {
+
+
+    public BasicMoves(Board board, Counter dorasCounter, Counter[][] counterPositions) {
         this.board = board;
-        this.counter = counter;
+        this.dorasCounter = dorasCounter;
+        this.counterPositions = counterPositions;
+        this.opponentCounter = dorasCounter.getOther();
     }
 
     public boolean checkCenterFree() {
@@ -22,7 +28,7 @@ public class BasicMoves {
         return !board.hasCounterAtPosition(centerPosition);
     }
 
-    public List<Integer> availableColumns(Counter[][] counterPositions) {
+    public List<Integer> availableColumns() {
         List<Integer> availableColumns = new ArrayList<>();
 
         for (int i = 0; i <= 9; i++) {
@@ -34,8 +40,8 @@ public class BasicMoves {
         return availableColumns;
     }
 
-    public int randomMove(Counter[][] counterPositions) {
-        List<Integer> availableColumns = availableColumns(counterPositions);
+    public int randomMove() {
+        List<Integer> availableColumns = availableColumns();
 
         Random rand = new Random();
 
@@ -43,62 +49,72 @@ public class BasicMoves {
         return availableColumns.get(randomIndex);
     }
 
-    public int getMove() {
-        Counter opponentCounter = counter.getOther();
-        int width = board.getConfig().getWidth();
-        int height = board.getConfig().getHeight();
-
-        // Check horizontally, vertically, and diagonally
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width - 3; col++) {
-                if (checkSequence(board, row, col, 1, 0, counter, false)) {
-                    return col + 3; // Win
-                } else if (checkSequence(board, row, col, 1, 0, opponentCounter, true)) {
-                    return col + 3; // Block
+    public int checkDiagonal(Counter counter){
+        for (int col = 0; col < 10; col++) {
+            for (int row = 0; row < 8; row++) {
+                if (counterPositions[row][col].equals(counter) &&
+                        counterPositions[row + 1][col + 1].equals(counter) &&
+                        counterPositions[row + 2][col + 2].equals(counter) &&
+                        counterPositions[row + 3][col + 3].equals(null) &&
+                        !counterPositions[row + 3][col + 2].equals(null)) {
+                    return col + 3;
                 }
             }
         }
+        return -1;
+    }
 
-        for (int row = 0; row < height - 3; row++) {
-            for (int col = 0; col < width; col++) {
-                if (checkSequence(board, row, col, 0, 1, counter, false)) {
-                    return col + 3; // Win
-                } else if (checkSequence(board, row, col, 0, 1, opponentCounter, true)) {
-                    return col + 3; // Block
+    public int checkHorizontal(Counter counter){
+        for (int col = 0; col < 10; col++) {
+            for (int row = 0; row < 8; row++) {
+                if (counterPositions[row][col].equals(counter) &&
+                        counterPositions[row][col + 1].equals(counter) &&
+                        counterPositions[row][col + 2].equals(counter) &&
+                        counterPositions[row][col + 3].equals(null)){
+                    return col + 3;
                 }
             }
         }
+        return -1;
+    }
 
-        for (int row = 0; row < height - 3; row++) {
-            for (int col = 0; col < width - 3; col++) {
-                if (checkSequence(board, row, col, 1, 1, counter, false)) {
-                    return col + 3; // Win
-                } else if (checkSequence(board, row, col, 1, 1, opponentCounter, true)) {
-                    return col + 3; // Block
-                }
-                if (checkSequence(board, row, col + 3, 1, -1, counter, false)) {
-                    return col + 3; // Win
-                } else if (checkSequence(board, row, col + 3, 1, -1, opponentCounter, true)) {
-                    return col + 3; // Block
+    public int checkVertical(Counter counter){
+        for (int col = 0; col < 10; col++) {
+            for (int row = 0; row < 8; row++) {
+                if (counterPositions[row][col].equals(counter) &&
+                        counterPositions[row + 1][col].equals(counter) &&
+                        counterPositions[row + 2][col].equals(counter) &&
+                        counterPositions[row + 3][col].equals(null)){
+                    return col;
                 }
             }
+        }
+        return -1;
+    }
+
+    public int movePosition(Counter counter){
+        int vertical = checkVertical(counter);
+        int horizontal = checkHorizontal(counter);
+        int diagonal = checkDiagonal(counter);
+
+        if(vertical != -1 && vertical < 10){
+            return vertical;
+        }else if(horizontal != -1 && horizontal < 10){
+            return horizontal;
+        }else if(diagonal != -1 && diagonal <10){
+            return diagonal;
         }
 
         return -1;
     }
 
-    private boolean checkSequence(Board board, int startRow, int startCol, int rowChange, int colChange, Counter targetCounter, boolean isBlocking) {
-        for (int i = 0; i < 4; i++) {
-            int newRow = startRow + i * rowChange;
-            int newCol = startCol + i * colChange;
-
-            if (board.getCounterAtPosition(new Position(newCol, newRow)) != targetCounter) {
-                if (isBlocking && newRow - rowChange >= 0 && board.getCounterAtPosition(new Position(newCol, newRow - rowChange))==null) {
-                    return true; // Block
-                }
-                return false;
-            }
+    public int makeMove(){
+        if(movePosition(dorasCounter) != -1){
+            return movePosition(dorasCounter); //win move
+        }else if(movePosition(opponentCounter) != -1){
+            return movePosition(opponentCounter); //block move
         }
-        return true;
+        return -1;
     }
+
 }

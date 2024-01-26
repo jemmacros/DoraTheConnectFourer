@@ -17,18 +17,15 @@ public class DoraTheConnectFourer extends Player {
   @Override
   public int makeMove(Board board) {
     Counter dorasCounter = getCounter();
-    com.thg.accelerator23.connectn.ai.jemma.Moves.BasicMoves moves = new BasicMoves(board, dorasCounter);
     Counter[][] counterPlacements = board.getCounterPlacements();
-
-    List<Integer> availableColumns = moves.availableColumns(counterPlacements);
+    com.thg.accelerator23.connectn.ai.jemma.Moves.BasicMoves moves = new BasicMoves(board, dorasCounter, counterPlacements);
 
     if(moves.checkCenterFree()){  //go for center if free
       return 4;
-    } else {
-      moves.getMove();
+    } else if(moves.makeMove() != -1) {
+      return moves.makeMove();
     }
 
-    int randomColumn = moves.randomMove(counterPlacements);
-    return randomColumn;
+    return moves.randomMove();
   }
 }
