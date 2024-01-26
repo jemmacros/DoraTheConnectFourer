@@ -32,9 +32,7 @@ public class DoraTheConnectFourer extends Player {
       }
     }
 
-    Random random = new Random();
-    int randomIndex = random.nextInt(availableColumns.size()); //random move where column is available
-    return availableColumns.get(randomIndex);
-
+    int randomColumn = moves.randomMove(counterPlacements);
+    return randomColumn;
   }
 }

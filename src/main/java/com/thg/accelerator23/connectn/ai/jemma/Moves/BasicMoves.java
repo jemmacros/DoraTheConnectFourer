@@ -56,19 +56,19 @@ public class BasicMoves {
         int width = board.getConfig().getWidth();
         int height = board.getConfig().getHeight();
 
-        // Check horizontally and vertically for a potential move
+        // Check horizontally and vertically
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width - 3; col++) {
-                if (checkRow(board, row, col, targetCounter)) {
+                if (checkRow(board, row, col, targetCounter) || checkColumn(board, col, row, targetCounter)) {
                     return col + 3;
                 }
             }
         }
 
-        // Check diagonally (both directions) for a potential move
+        // Check diagonally (both directions)
         for (int row = 0; row < height - 3; row++) {
             for (int col = 0; col < width - 3; col++) {
-                if (checkDiagonal(board, row, col, targetCounter)) {
+                if (checkDiagonal(board, row, col, targetCounter) || checkColumn(board, col, row, targetCounter)) {
                     return col + 3;
                 }
             }
@@ -89,6 +89,15 @@ public class BasicMoves {
     public boolean checkDiagonal(Board board, int startRow, int startCol, Counter targetCounter) {
         for (int i = 0; i < 4; i++) {
             if (board.getCounterAtPosition(new Position(startCol + i, startRow + i)) != targetCounter) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkColumn(Board board, int col, int startRow, Counter targetCounter) {
+        for (int i = 0; i < 4; i++) {
+            if (board.getCounterAtPosition(new Position(col, startRow + i)) != targetCounter) {
                 return false;
             }
         }
