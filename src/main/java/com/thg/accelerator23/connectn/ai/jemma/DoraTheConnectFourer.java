@@ -23,9 +23,11 @@ public class DoraTheConnectFourer extends Player {
     List<Integer> availableColumns = moves.availableColumns(counterPlacements);
 
     int winningMove = moves.getWinningMove();    //winning move
-    if (winningMove != -1 && availableColumns.contains(winningMove)) {
+    if(moves.checkCenterFree()){
+      return 4;
+    } else if (winningMove != -1 && availableColumns.contains(winningMove)) {
       return winningMove;
-    }else{
+    } else{
       int blockingMove = moves.getBlockingMove();   //blocking move
       if (blockingMove != -1 && availableColumns.contains(winningMove)) {
         return blockingMove;
